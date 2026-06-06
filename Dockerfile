@@ -37,5 +37,5 @@ ENV APP_DEBUG=true
 
 EXPOSE 80
 
-# الحل الجذري: إنشاء مجلد وملف السيرفر وقاعدة البيانات تلقائياً، إعطاء الصلاحيات، ثم تنظيف الكاش والتشغيل
-CMD ["sh", "-c", "mkdir -p database && touch database/database.sqlite && chown -R www-data:www-data database && php artisan config:clear && php artisan cache:clear && apache2-foreground"]
+# التعديل النهائي: تهيئة قاعدة البيانات، تصفير الإعدادات، بناء الجداول تلقائياً، تنظيف كاش النظام، ثم التشغيل
+CMD ["sh", "-c", "mkdir -p database && touch database/database.sqlite && chown -R www-data:www-data database && php artisan config:clear && php artisan migrate --force && php artisan cache:clear && apache2-foreground"]
