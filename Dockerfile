@@ -1,6 +1,6 @@
 FROM php:8.2-apache
 
-# تثبيت الإضافات المطلوبة للارافيل بالإضافة إلى Node.js و NPM لبناء التنسيقات
+# تثبيت الإضافات المطلوبة للارافيل
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
@@ -8,9 +8,6 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     git \
-    curl \
-    && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
-    && apt-get install -y openssl nodejs \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo pdo_mysql
 
@@ -22,15 +19,12 @@ ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-# نسخ ملفات المشروع إلى السيرفر
+# نسخ ملفات المشروع بالكامل (بما فيها مجلد public/build الذي أنشأناه محلياً)
 COPY . /var/www/html
 
 # تثبيت Composer والحزم
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer install --no-dev --optimize-autoloader
-
-# تثبيت حزم الـ NPM وتجميع ملفات الـ CSS والـ JS (مثل Vite أو Mix)
-RUN npm install && npm run build
 
 # ضبط الصلاحيات للمجلدات الأساسية
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
