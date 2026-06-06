@@ -26,9 +26,16 @@ COPY . /var/www/html
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer install --no-dev --optimize-autoloader
 
-# 🛠️ [التعديل الجديد هنا] توليد كاش لارافيل وضبط الصلاحيات تلقائياً لتجنب خطأ 500
-RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
+# ضبط الصلاحيات للمجلدات الأساسية
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
+# إجبار لارافيل على إرسال الأخطاء وتفعيل وضع التطوير لتظهر في الـ Logs
+ENV LOG_CHANNEL=stderr
+ENV APP_LOG_LEVEL=debug
+ENV APP_DEBUG=true
+
 EXPOSE 80
+
+# تنظيف الكاش عند التشغيل الفعلي (Runtime) لتجنب أي تعارض مع الـ APP_KEY
+CMD php artisan config:clear && php artisan cache:clear && apache2-foreground
