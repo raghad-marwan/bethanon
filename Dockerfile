@@ -1,6 +1,6 @@
 FROM php:8.2-apache
 
-# تثبيت الإضافات المطلوبة للارافيل
+# تثبيت الإضافات المطلوبة للارافيل بالإضافة إلى Node.js و NPM لبناء التنسيقات
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
@@ -8,6 +8,9 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     git \
+    curl \
+    && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y openssl nodejs \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo pdo_mysql
 
@@ -26,6 +29,9 @@ COPY . /var/www/html
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer install --no-dev --optimize-autoloader
 
+# تثبيت حزم الـ NPM وتجميع ملفات الـ CSS والـ JS (مثل Vite أو Mix)
+RUN npm install && npm run build
+
 # ضبط الصلاحيات للمجلدات الأساسية
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
@@ -37,5 +43,5 @@ ENV APP_DEBUG=true
 
 EXPOSE 80
 
-# التعديل النهائي: تهيئة قاعدة البيانات، تصفير الإعدادات، بناء الجداول تلقائياً، تنظيف كاش النظام، ثم التشغيل
+# تهيئة قاعدة البيانات، تصفير الإعدادات، بناء الجداول تلقائياً، تنظيف كاش النظام، ثم التشغيل
 CMD ["sh", "-c", "mkdir -p database && touch database/database.sqlite && chown -R www-data:www-data database && php artisan config:clear && php artisan migrate --force && php artisan cache:clear && apache2-foreground"]
