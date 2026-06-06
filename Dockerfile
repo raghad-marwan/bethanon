@@ -1,17 +1,32 @@
-FROM php:8.2-cli
+FROM php:8.2-apache
 
-WORKDIR /app
-
-COPY . /app
-
+# تثبيت الإضافات المطلوبة للارافيل
 RUN apt-get update && apt-get install -y \
-    git \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    zip \
     unzip \
-    libzip-dev \
-    && docker-php-ext-install zip pdo pdo_mysql
+    git \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd pdo pdo_mysql
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# تفعيل مود الـ Rewrite الخاص بـ Apache لتشغيل روابط لارافيل بشكل صحيح
+RUN a2enmod rewrite
 
+# توجيه السيرفر إلى مجلد public الخاص بلارافيل
+ENV APACHE_DOCUMENT_ROOT /var/www/html/public
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+
+# نسخ ملفات المشروع إلى السيرفر
+COPY . /var/www/html
+
+# تثبيت Composer والحزم
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer install --no-dev --optimize-autoloader
 
-CMD php artisan serve --host=0.0.0.0 --port=10000
+# إعطاء الصلاحيات لمجلدات التخزين والكاش
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
+EXPOSE 80
