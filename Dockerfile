@@ -37,5 +37,5 @@ ENV APP_DEBUG=true
 
 EXPOSE 80
 
-# تنظيف الكاش عند التشغيل الفعلي (Runtime) لتجنب أي تعارض مع الـ APP_KEY
-CMD php artisan config:clear && php artisan cache:clear && apache2-foreground
+# الصيغة المصححة لتشغيل الأوامر بالتوالي عند إقلاع السيرفر
+CMD ["sh", "-c", "php artisan config:clear && php artisan cache:clear && apache2-foreground"]
