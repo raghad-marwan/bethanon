@@ -26,7 +26,9 @@ COPY . /var/www/html
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer install --no-dev --optimize-autoloader
 
-# إعطاء الصلاحيات لمجلدات التخزين والكاش
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# 🛠️ [التعديل الجديد هنا] توليد كاش لارافيل وضبط الصلاحيات تلقائياً لتجنب خطأ 500
+RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 EXPOSE 80
