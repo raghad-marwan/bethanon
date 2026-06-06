@@ -37,5 +37,5 @@ ENV APP_DEBUG=true
 
 EXPOSE 80
 
-# الصيغة المصححة لتشغيل الأوامر بالتوالي عند إقلاع السيرفر
-CMD ["sh", "-c", "php artisan config:clear && php artisan cache:clear && apache2-foreground"]
+# الحل الجذري: إنشاء مجلد وملف السيرفر وقاعدة البيانات تلقائياً، إعطاء الصلاحيات، ثم تنظيف الكاش والتشغيل
+CMD ["sh", "-c", "mkdir -p database && touch database/database.sqlite && chown -R www-data:www-data database && php artisan config:clear && php artisan cache:clear && apache2-foreground"]
