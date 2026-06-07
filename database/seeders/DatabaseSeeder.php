@@ -18,11 +18,11 @@ class DatabaseSeeder extends Seeder
 
 
 $this->call([
-     CitizenSeeder::class,
+    // CitizenSeeder::class,
     AdminSeeder::class,
-    OrganizationSeeder::class,
-    NotificationSeeder::class,
-    AppealSeeder::class,
+   // OrganizationSeeder::class,
+   // NotificationSeeder::class,
+   // AppealSeeder::class,
 ]);
     }
 }

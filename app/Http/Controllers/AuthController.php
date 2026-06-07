@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Citizen;
 use App\Models\Admin;
 use App\Models\Organization;
-use App\Models\OtpCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -20,12 +19,32 @@ class AuthController extends Controller
 
 
 
+    public function citizenCheck(Request $request)
+    {
+        $request->validate([
+            'national_id' => 'required|digits:9',
+            'phone' => 'required',
+        ]);
 
+        $citizen = Citizen::firstOrCreate(
+            ['national_id' => $request->national_id],
+            [
+                'name' => 'مواطن',
+                'phone' => $request->phone,
+                'password' => bcrypt($request->phone),
+            ]
+        );
+
+        return response()->json([
+            'status' => $citizen->wasRecentlyCreated ? 'new' : 'exists',
+            'name' => $citizen->name,
+        ]);
+    }
     // دالة جديدة: إنشاء مستخدم حسب الـ guard
     private function createUserByGuard($guard, $nationalId, $phone)
     {
         return match ($guard) {
-           
+
 
             'organization' => Organization::create([
                 'national_id' => $nationalId,
@@ -47,7 +66,6 @@ class AuthController extends Controller
         return match ($guard) {
             'admin' => Admin::where('national_id', $nationalId)->first(),
             'organization' => Organization::where('national_id', $nationalId)->first(),
-
         };
     }
     public function register(Request $request)
@@ -119,5 +137,28 @@ class AuthController extends Controller
         }
 
         return back()->with('error', 'حدث خطأ');
+    }
+
+
+    public function citizenLogin(Request $request)
+    {
+        $request->validate([
+            'national_id' => 'required|digits:9',
+            'phone' => 'required',
+        ]);
+
+        $citizen = Citizen::where('national_id', $request->national_id)->first();
+
+        if (!$citizen) {
+            $citizen = Citizen::create([
+                'national_id' => $request->national_id,
+                'name' => 'مواطن',
+                'phone' => $request->phone,
+                'password' => bcrypt($request->phone),
+            ]);
+        }
+
+        Auth::guard('citizen')->login($citizen);
+        return redirect('/')->with('success', 'تم تسجيل الدخول');
     }
 }

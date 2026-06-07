@@ -17,7 +17,8 @@ Route::get('/admin/login', [AuthController::class, 'showLoginForm'])->name('admi
 Route::post('/admin/login', [AuthController::class, 'login']);
 Route::get('/organization/login', [AuthController::class, 'showLoginForm'])->name('organization.login');
 Route::post('/organization/login', [AuthController::class, 'login']);
-
+Route::post('/citizen/login', [AuthController::class, 'citizenLogin']);
+Route::post('/citizen/check', [AuthController::class, 'citizenCheck']);
 Route::get('/admin/dashboard', function () { return view('admin.dashboard'); })->middleware('auth:admin');
 Route::get('/organization/dashboard', function () { return view('organization.dashboard'); })->middleware('auth:organization');
 

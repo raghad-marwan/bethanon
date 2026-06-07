@@ -9,15 +9,15 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('otp_codes', function (Blueprint $table) {
+        Schema::create('citizens', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->string('user_type')->default('citizen');
-            $table->string('code', 4);
-            $table->timestamp('expires_at');
-            $table->boolean('used')->default(false);
+            $table->string('national_id', 9)->unique();
+            $table->string('name');
+            $table->string('phone');
+            $table->string('password');
+            $table->rememberToken();
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('otp_codes');
+        Schema::dropIfExists('citizens');
     }
 };

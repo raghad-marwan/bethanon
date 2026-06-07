@@ -17,12 +17,13 @@ class AdminSeeder extends Seeder
             'password' => bcrypt('123456'),
         ]);*/
 
-      /*  Admin::create([
-            'national_id' => 'رقم-هوية-العميل',
-            'name' => 'اسم-المدير',
-            'email' => 'admin@sandooq.ps',
-            'phone' => '059xxxxxxxx',
-            'password' => bcrypt('كلمة-السر'),
-        ]);*/
+       Admin::create([
+            'national_id' => '408087674',
+            'name' => 'Suhaib',
+            'email' => 'Suhaib@email.ps',
+            'phone' => '0567853369',
+           // 'password' => bcrypt('كلمة-السر'),
+           'password'=>bcrypt('408087674'),
+        ]);
     }
 }

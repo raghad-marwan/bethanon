@@ -465,7 +465,7 @@
                                 @endif
                             </td>
                             <td>{{ $d->amount }} ش</td>
-                            <td>{{ $d->payment_method == 'usdt' ? 'USDT' : 'محف' }}</td>
+                            <td>{{ $d->payment_method == 'binance' ? 'بايننس' : 'مالتشات' }}</td>
                             <td>{{ $d->created_at->format('Y/m/d') }}</td>
                             <td>
                                 <a href="/admin/donations/{{ $d->id }}/confirm"

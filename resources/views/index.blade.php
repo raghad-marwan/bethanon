@@ -256,7 +256,7 @@
                         <div class="box-icon"><i class="fa-solid fa-user"></i></div>
                         <h4>مواطن</h4>
                         <p>يمكنك التبرع أو طلب مساعدة حسب احتياجك</p>
-                        <a href="#" class="btn-login">تسجيل دخول</a>
+                        <a href="https://ahalibeithanoun.com/" class="btn-login">تسجيل دخول</a>
                     </div>
                     <div class="type-box">
                         <div class="box-icon"><i class="fa-solid fa-building-ngo"></i></div>

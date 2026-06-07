@@ -38,17 +38,28 @@ class DonationController extends Controller
 
         $recentDonations = Donation::where('status', 'confirmed')->latest()->take(5)->get();
         $notifications = Notification::latest()->take(3)->get();
-       $urgentAppeals = Appeal::where('status', 'approved')
-    ->whereColumn('current_amount', '<', 'target_amount')
-    ->latest()->take(3)->get();
+        $urgentAppeals = Appeal::where('status', 'approved')
+            ->whereColumn('current_amount', '<', 'target_amount')
+            ->latest()->take(3)->get();
 
-return view('index', compact('stats', 'recentDonations', 'notifications', 'urgentAppeals'));    }
+        return view('index', compact('stats', 'recentDonations', 'notifications', 'urgentAppeals'));
+    }
 
     public function showDonateForm()
     {
         $paymentMethods = [
-            'usdt' => ['address' => 'TXxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'network' => 'TRC20'],
-            'bank' => ['name' => 'محفظة ', 'iban' => 'PS12BANK000000000000000000000', 'bank_name' => ' محفظة', 'account_name' => 'صندوق مساعدة الناس - بيت حانون'],
+            'binance' => [
+                'name' => 'محفظة بايننس',
+                'iban' => 'TLC9NeahsdSP77Wj37vRTj11oyyHQQKD5Y',
+                'bank_name' => 'محفظة بايننس',
+                'account_name' => 'صندوق مساعدة الناس - بيت حانون',
+            ],
+            'maltchat' => [
+                'name' => 'محفظة مالتشات',
+                'iban' => '0594394229',
+                'bank_name' => 'محفظة مالتشات',
+                'account_name' => 'صندوق مساعدة الناس - بيت حانون',
+            ],
         ];
 
         $goals = ['sustainable' => 'مشاريع مستدامة', 'relief' => 'إغاثية', 'orphans' => 'أيتام', 'health' => 'صحية', 'other' => 'أخرى'];
@@ -59,7 +70,7 @@ return view('index', compact('stats', 'recentDonations', 'notifications', 'urgen
     public function storeDonation(Request $request)
     {
         $request->validate([
-            'payment_method' => 'required|in:usdt,bank',
+            'payment_method' => 'required|in:binance,maltchat',
             'amount' => 'required|numeric|min:1',
             'donation_goal' => 'required|string',
             'donor_visibility' => 'required|in:public,anonymous',

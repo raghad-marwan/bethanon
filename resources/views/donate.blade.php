@@ -420,57 +420,56 @@
             <form action="{{ route('donation.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
-                {{-- طريقة الدفع --}}
                 <div class="section-title"><i class="fa-solid fa-credit-card"></i> اختر طريقة التبرع</div>
 
                 <div class="payment-options">
-                    <label class="payment-option" id="card-bank">
-                        <input type="radio" name="payment_method" value="bank" required
-                            onchange="toggleInfo('bank')">
-                        <i class="fa-solid fa-building-columns"></i>
-                        <div class="title"> محفظة</div>
-                        <div class="desc">تحويل مباشر </div>
+                    <label class="payment-option" id="card-binance">
+                        <input type="radio" name="payment_method" value="binance" required
+                            onchange="toggleInfo('binance')">
+                        <i class="fa-brands fa-bitcoin"></i>
+                        <div class="title">محفظة بايننس</div>
+                        <div class="desc">USDT</div>
                     </label>
 
-                    <label class="payment-option" id="card-usdt">
-                        <input type="radio" name="payment_method" value="usdt" onchange="toggleInfo('usdt')">
-                        <i class="fa-brands fa-bitcoin"></i>
-                        <div class="title">USDT</div>
-                        <div class="desc">عملة رقمية TRC20</div>
+                    <label class="payment-option" id="card-maltchat">
+                        <input type="radio" name="payment_method" value="maltchat" onchange="toggleInfo('maltchat')">
+                        <i class="fa-solid fa-building-columns"></i>
+                        <div class="title">محفظة مالتشات</div>
+                        <div class="desc">تحويل مباشر</div>
                     </label>
                 </div>
 
-                {{-- معلومات البنك --}}
-                <div class="info-box" id="info-bank">
-                    <div class="label">📋 رقم المحفظة للتحويل</div>
+                <div class="info-box" id="info-binance">
+                    <div class="label">💎 محفظة بايننس</div>
                     <div class="copy-row">
-                        <input type="text" id="ibanInput" value="{{ $paymentMethods['bank']['iban'] }}" readonly>
-                        <button type="button" onclick="copyIban()"><i class="fa-solid fa-copy"></i> نسخ</button>
+                        <input type="text" value="{{ $paymentMethods['binance']['iban'] }}" readonly>
+                        <button type="button" onclick="copyText('{{ $paymentMethods['binance']['iban'] }}')"><i
+                                class="fa-solid fa-copy"></i> نسخ</button>
                     </div>
                     <div class="details">
-                        <p><strong>📱 المحفظة:</strong> {{ $paymentMethods['bank']['bank_name'] }}</p>
-                        <p><strong>👤 المستفيد:</strong> {{ $paymentMethods['bank']['account_name'] }}</p>
+                        <p><strong>📱 المحفظة:</strong> {{ $paymentMethods['binance']['bank_name'] }}</p>
+                        <p><strong>👤 المستفيد:</strong> {{ $paymentMethods['binance']['account_name'] }}</p>
                     </div>
                 </div>
 
-                {{-- معلومات USDT --}}
-                <div class="info-box" id="info-usdt">
-                    <div class="label">💎 عنوان محفظة USDT</div>
+                <div class="info-box" id="info-maltchat">
+                    <div class="label">📋 محفظة مالتشات</div>
                     <div class="copy-row">
-                        <input type="text" value="{{ $paymentMethods['usdt']['address'] }}" readonly>
-                        <button type="button" onclick="copyUsdt()"><i class="fa-solid fa-copy"></i> نسخ</button>
+                        <input type="text" value="{{ $paymentMethods['maltchat']['iban'] }}" readonly>
+                        <button type="button" onclick="copyText('{{ $paymentMethods['maltchat']['iban'] }}')"><i
+                                class="fa-solid fa-copy"></i> نسخ</button>
                     </div>
-                    <div class="note">⚠️ الشبكة: {{ $paymentMethods['usdt']['network'] }} - تأكد من الشبكة قبل الإرسال
+                    <div class="details">
+                        <p><strong>📱 المحفظة:</strong> {{ $paymentMethods['maltchat']['bank_name'] }}</p>
+                        <p><strong>👤 المستفيد:</strong> {{ $paymentMethods['maltchat']['account_name'] }}</p>
                     </div>
                 </div>
 
-                {{-- المبلغ --}}
                 <div class="section-title"><i class="fa-solid fa-money-bill-wave"></i> المبلغ</div>
                 <div class="form-group">
                     <input type="number" name="amount" step="0" placeholder="أدخل المبلغ بالشيكل" required>
                 </div>
 
-                {{-- هدف التبرع --}}
                 <div class="section-title"><i class="fa-solid fa-bullseye"></i> هدف التبرع</div>
                 <div class="form-group">
                     <select name="donation_goal" required>
@@ -481,38 +480,33 @@
                     </select>
                 </div>
 
-                {{-- الظهور --}}
                 <div class="section-title"><i class="fa-solid fa-user"></i> تريد ظهور اسمك؟</div>
                 <div class="form-group">
                     <div class="radio-group">
-                        <label>
-                            <input type="radio" name="donor_visibility" value="public" required
-                                onchange="toggleName()">
-                            نعم، أظهر اسمي
-                        </label>
-                        <label>
-                            <input type="radio" name="donor_visibility" value="anonymous" onchange="toggleName()">
-                            لا، فاعل خير
-                        </label>
+                        <label><input type="radio" name="donor_visibility" value="public" required
+                                onchange="toggleName()"> نعم، أظهر اسمي</label>
+                        <label><input type="radio" name="donor_visibility" value="anonymous" onchange="toggleName()">
+                            لا، فاعل خير</label>
                     </div>
                     <input type="text" name="donor_name" id="donor_name" placeholder="اكتب اسمك الكريم"
                         style="display:none; margin-top:12px;">
                 </div>
 
-                {{-- رفع الإيصال --}}
                 <div class="section-title"><i class="fa-solid fa-camera"></i> إثبات التحويل</div>
                 <div class="form-group">
                     <input type="file" name="receipt" accept="image/*" required>
                 </div>
 
-                {{-- إرسال --}}
                 @if (request('appeal_id'))
                     <input type="hidden" name="appeal_id" value="{{ request('appeal_id') }}">
                 @endif
+
                 <button type="submit" class="btn-submit">
                     <i class="fa-solid fa-paper-plane"></i> إرسال التبرع
                 </button>
             </form>
+
+
         </div>
 
         <a href="{{ url('/') }}" class="btn-back"><i class="fa-solid fa-arrow-right"></i> العودة للصفحة
@@ -524,12 +518,12 @@
             document.querySelectorAll('.info-box').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.payment-option').forEach(c => c.classList.remove('selected'));
 
-            if (type === 'bank') {
-                document.getElementById('info-bank').classList.add('active');
-                document.getElementById('card-bank').classList.add('selected');
-            } else if (type === 'usdt') {
-                document.getElementById('info-usdt').classList.add('active');
-                document.getElementById('card-usdt').classList.add('selected');
+            if (type === 'binance') {
+                document.getElementById('info-binance').classList.add('active');
+                document.getElementById('card-binance').classList.add('selected');
+            } else if (type === 'maltchat') {
+                document.getElementById('info-maltchat').classList.add('active');
+                document.getElementById('card-maltchat').classList.add('selected');
             }
         }
 
@@ -538,18 +532,8 @@
             document.getElementById('donor_name').style.display = vis === 'public' ? 'block' : 'none';
         }
 
-        function copyIban() {
-            const input = document.getElementById('ibanInput');
-            input.select();
-            document.execCommand('copy');
-            alert('✅ تم نسخ الآيبان');
-        }
-
-        function copyUsdt() {
-            const input = document.querySelector('#info-usdt input');
-            input.select();
-            document.execCommand('copy');
-            alert('✅ تم نسخ عنوان USDT');
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => alert('✅ تم النسخ!'));
         }
     </script>
 
