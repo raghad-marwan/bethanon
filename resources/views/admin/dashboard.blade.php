@@ -326,6 +326,8 @@
         <a href="/admin/donations/monthly"><i class="fa-solid fa-calendar-check"></i> تبرعات الشهر</a>
         <a href="/admin/donations/pending"><i class="fa-solid fa-clock"></i> قيد المراجعة</a>
         <a href="/admin/withdrawals"><i class="fa-solid fa-money-bill-transfer"></i> المسحوبات</a>
+        <a href="/admin/projects"><i class="fa-solid fa-diagram-project"></i> المشاريع</a>
+        <a href="/admin/expenses"><i class="fa-solid fa-money-bill-wave"></i> المصروفات</a>
         <a href="/admin/appeals"><i class="fa-solid fa-bullhorn"></i> المناشدات</a>
         <a href="/admin/notifications"><i class="fa-solid fa-bell"></i> الإشعارات</a>
         <a href="/admin/organizations"><i class="fa-solid fa-building-ngo"></i> طلبات المؤسسات</a>

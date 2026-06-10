@@ -12,8 +12,6 @@
 
 <body>
 
-
-
     <nav class="navbar">
         <div class="nav-container">
             <a href="#" class="nav-logo">
@@ -21,6 +19,7 @@
                 <div class="logo-text">
                     <span class="main-title">صندوق مساعدة الناس</span>
                     <span class="sub-title">بيت حانون</span>
+                     <span class="sub-title"> المهندس: صهيب البسيوني</span>
                 </div>
             </a>
 
@@ -63,15 +62,17 @@
             </button>
         </div>
     </nav>
-    @if(session('status_message'))
-    <div style="background: #ffc107; color: #0c392b; text-align: center; padding: 12px; font-size: 16px;">
-        {{ session('status_message') }}
-    </div>
-@endif
+
+    @if (session('status_message'))
+        <div style="background: #ffc107; color: #0c392b; text-align: center; padding: 12px; font-size: 16px;">
+            {{ session('status_message') }}
+        </div>
+    @endif
+
     <section class="hero-section">
         <div class="hero-container">
             <div class="hero-content">
-                <h1 class="hero-title">صندوق مساعدة الناس <br><span>بيت حانون</span></h1>
+                <h1 class="hero-title"> صندوق بيت حانون التكافلي <br><span>المستدام </span></h1>
                 <p class="hero-description">
                     من أهلنا... لأهلنا، نطلق هذا الصندوق لنكون سنداً حقيقياً لكل محتاج في بيت حانون. معاً نخفف الألم،
                     ونصنع الأمل، ونبني مستقبلاً أفضل.
@@ -95,7 +96,7 @@
                 </div>
             </div>
             <div class="hero-image-container">
-                <img src="{{ asset('assets/images/hero-hand-image.jpg') }}" alt="لأننا أهل ويد واحدة" class="hero-img">
+                <img src="{{ asset('assets/images/bet.jpeg') }}" alt="لأننا أهل ويد واحدة" class="hero-img">
             </div>
         </div>
     </section>
@@ -144,24 +145,16 @@
         <div class="dashboard-container">
             <div class="dashboard-card card-stats">
                 <div class="stat-box">
-                    <h3 class="card-title-d">الرصيد الإجمالي</h3>
+                    <h3 class="card-title-d">إجمالي المصروفات للمشاريع التشغيلية</h3>
                     <div class="main-number">
                         <span class="counter" data-target="{{ $stats['total'] }}">0</span> <span
                             class="currency">شيكل</span>
                     </div>
-                    <p class="sub-text">إجمالي التبرعات منذ بداية الصندوق</p>
                 </div>
                 <div class="monthly-stat-box">
-                    <h4 class="sub-title-d">التبرعات هذا الشهر</h4>
+                    <h4 class="sub-title-d">إجمالي المصروفات للمشاريع هذا الشهر</h4>
                     <div class="secondary-number">
                         <span class="counter" data-target="{{ $stats['this_month'] }}">0</span> <span>شيكل</span>
-                    </div>
-                    <div class="chart-container">
-                        <svg viewBox="0 0 300 80" class="sparkline">
-                            <path d="M 0 60 Q 30 50, 60 55 T 120 40 T 180 45 T 240 25 T 300 15" fill="none"
-                                stroke="#ffffff" stroke-width="3" />
-                            <circle cx="300" cy="15" r="7" fill="#66bb6a" />
-                        </svg>
                     </div>
                 </div>
                 <button class="btn btn-outline">طلب المزيد من التفاصيل</button>
@@ -169,31 +162,13 @@
 
             <div class="dashboard-card card-main-action">
                 <div class="stat-box">
-                    <h3 class="card-title-d">التبرعات اليوم</h3>
+                    <h3 class="card-title-d">إجمالي عدد المشاريع التي تم تنفيذها من قبل الصندوق</h3>
+                    <br>
                     <div class="main-number highlight">
-                        <span class="counter" data-target="{{ $stats['today'] }}">0</span> <span
-                            class="currency">شيكل</span>
-                    </div>
-                    <p class="sub-text">عدد التبرعات: <span>{{ $stats['count_today'] }} تبرع</span></p>
-                    <div class="progress-bar-wrapper">
-                        <div class="progress-bar" style="width: {{ $stats['today_percent'] }}%;"></div>
-                    </div>
-                    <span class="progress-text2">تم تحقيق {{ $stats['today_percent'] }}% من هدف اليوم</span>
-                </div>
-                <div class="donation-sectors">
-                    <h4 class="sect-title">أوجه التبرع</h4>
-                    <div class="sectors-grid">
-                        <div class="sector-item"><i class="fa-solid fa-ellipsis"></i><span>أخرى</span></div>
-                        <div class="sector-item"><i class="fa-solid fa-users"></i><span>أسر متعففة</span></div>
-                        <div class="sector-item"><i class="fa-solid fa-shield-halved"></i><span>أمن غذائي</span></div>
-                        <div class="sector-item"><i class="fa-solid fa-briefcase"></i><span>دعم مشاريع صغيرة</span>
-                        </div>
-                        <div class="sector-item"><i class="fa-solid fa-hands-holding-child"></i><span>كفالة
-                                أيتام</span></div>
+                        <span class="counter" data-target="{{ $stats['today'] }}">0</span>
                     </div>
                 </div>
                 <a href="{{ route('donate') }}" class="btn btn-primary">تبرع الآن</a>
-                <p class="footer-note">أو اختر مستفيداً محدداً</p>
             </div>
 
             <div class="dashboard-card card-recent">
@@ -303,7 +278,6 @@
                 </div>
             </div>
 
-            {{-- المناشدة العاجلة --}}
             @if (isset($urgentAppeals) && $urgentAppeals->count() > 0)
                 @foreach ($urgentAppeals as $appeal)
                     <div class="info-card appeal-card">
@@ -329,7 +303,6 @@
                 @endforeach
             @endif
 
-            {{-- الإشعارات --}}
             <div class="info-card notifications-card">
                 <div class="card-leaves-bottom"></div>
                 <h3 class="card-title">آخر الإشعارات</h3>
@@ -356,93 +329,6 @@
             <p class="footer-copyright">جميع الحقوق محفوظة © 2024</p>
         </div>
     </footer>
-
-    {{-- مودال التبرع الجديد --}}
-    <div class="donation-overlay" id="donationModal">
-        <div class="donation-modal-card" style="max-width: 500px;">
-            <h3>تبرع جديد</h3>
-
-            {{-- اختيار طريقة الدفع --}}
-            <div class="modal-form-group">
-                <label>طريقة الدفع</label>
-                <div style="display: flex; gap: 10px;">
-                    <label
-                        style="flex: 1; text-align: center; border: 2px solid #0c392b; padding: 10px; border-radius: 8px; cursor: pointer;">
-                        <input type="radio" name="payment_method" value="usdt"
-                            onchange="showPaymentInfo('usdt')"> USDT
-                    </label>
-                    <label
-                        style="flex: 1; text-align: center; border: 2px solid #0c392b; padding: 10px; border-radius: 8px; cursor: pointer;">
-                        <input type="radio" name="payment_method" value="wallet"
-                            onchange="showPaymentInfo('wallet')"> محفظة
-                    </label>
-                    <label
-                        style="flex: 1; text-align: center; border: 2px solid #0c392b; padding: 10px; border-radius: 8px; cursor: pointer;">
-                        <input type="radio" name="payment_method" value="bank"
-                            onchange="showPaymentInfo('bank')"> محفظة
-                    </label>
-                </div>
-            </div>
-
-            {{-- معلومات الدفع --}}
-            <div id="paymentInfo"
-                style="display: none; background: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
-                <p id="paymentLabel" style="font-weight: bold; margin-bottom: 8px;"></p>
-                <div style="display: flex; gap: 10px; align-items: center;">
-                    <input type="text" id="paymentAddress" readonly
-                        style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 6px; background: white;">
-                    <button type="button" onclick="copyPayment()"
-                        style="background: #0c392b; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer;">📋
-                        نسخ</button>
-                </div>
-            </div>
-
-            {{-- اسم المتبرع --}}
-            <div class="modal-form-group">
-                <label>اسم المتبرع</label>
-                <input type="text" id="modalDonorName" placeholder="اكتب اسمك هنا">
-            </div>
-
-            <div class="modal-form-group checkbox-group">
-                <label>
-                    <input type="checkbox" id="modalAnonCheck" onchange="toggleName()"> التبرع كفاعل خير (إخفاء
-                    الاسم)
-                </label>
-            </div>
-
-            {{-- قيمة التبرع --}}
-            <div class="modal-form-group">
-                <label>قيمة التبرع (شيكل)</label>
-                <input type="number" id="modalAmount" placeholder="مثال: 500">
-            </div>
-
-            {{-- هدف التبرع --}}
-            <div class="modal-form-group">
-                <label>هدف التبرع</label>
-                <select id="modalPurpose"
-                    style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
-                    <option value="">اختر الهدف</option>
-                    <option value="sustainable">مشاريع مستدامة</option>
-                    <option value="relief">إغاثية</option>
-                    <option value="orphans">أيتام</option>
-                    <option value="health">صحية</option>
-                    <option value="other">أخرى</option>
-                </select>
-            </div>
-
-            {{-- رفع إشعار الدفع --}}
-            <div class="modal-form-group">
-                <label>إشعار الدفع (صورة الإيصال)</label>
-                <input type="file" id="modalReceipt" accept="image/*">
-            </div>
-
-            {{-- أزرار --}}
-            <div class="modal-actions">
-                <button class="btn-confirm" onclick="submitDonation()">إرسال التبرع</button>
-                <button class="btn-cancel" onclick="closeDonationModal()">إلغاء</button>
-            </div>
-        </div>
-    </div>
 
     <script src="{{ asset('assets/js/main.js') }}"></script>
 </body>

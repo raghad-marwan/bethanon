@@ -52,4 +52,16 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
     Route::get('/organizations', [AdminController::class, 'organizations']);
     Route::get('/organizations/{id}/approve', [AdminController::class, 'approveOrganization']);
     Route::get('/organizations/{id}/reject', [AdminController::class, 'rejectOrganization']);
+    // المشاريع
+Route::get('/projects', [AdminController::class, 'projects']);
+Route::post('/projects', [AdminController::class, 'storeProject']);
+Route::get('/projects/{id}/complete', [AdminController::class, 'completeProject']);
+
+// المصروفات
+Route::get('/expenses', [AdminController::class, 'expenses']);
+Route::post('/expenses', [AdminController::class, 'storeExpense']);
+
+Route::delete('/projects/{id}', [AdminController::class, 'deleteProject']);
 });
+
+

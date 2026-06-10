@@ -8,32 +8,23 @@ use App\Models\Appeal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Models\Expense;
+use App\Models\Project;
 
 class DonationController extends Controller
 {
     public function index()
     {
-        $today = Donation::whereDate('created_at', Carbon::today())
-            ->where('status', 'confirmed')
-            ->sum('amount');
-
-        $thisMonth = Donation::whereMonth('created_at', Carbon::now()->month)
-            ->whereYear('created_at', Carbon::now()->year)
-            ->where('status', 'confirmed')
-            ->sum('amount');
-
-        $total = Donation::where('status', 'confirmed')->sum('amount');
-
-        $dailyTarget = 5000;
-        $todayPercent = $dailyTarget > 0 ? min(($today / $dailyTarget) * 100, 100) : 0;
-
         $stats = [
-            'total' => $total,
-            'today' => $today,
-            'this_month' => $thisMonth,
-            'count_today' => Donation::whereDate('created_at', Carbon::today())->where('status', 'confirmed')->count(),
-            'daily_target' => $dailyTarget,
-            'today_percent' => round($todayPercent, 1),
+            'total' => Expense::sum('amount'), // إجمالي المصروفات
+            'today' => Project::where('status', 'completed')->count(), // عدد المشاريع المنفذة
+            'this_month' => Expense::whereMonth('expense_date', Carbon::now()->month)
+                ->whereYear('expense_date', Carbon::now()->year)
+                ->sum('amount'), // مصروفات هذا الشهر
+            'count_today' => Donation::whereDate('created_at', Carbon::today())
+                ->where('status', 'confirmed')->count(),
+            'daily_target' => 5000,
+            'today_percent' => 0,
         ];
 
         $recentDonations = Donation::where('status', 'confirmed')->latest()->take(5)->get();

@@ -7,14 +7,14 @@ use App\Models\Appeal;
 use App\Models\Notification;
 use App\Models\Withdrawal;
 use App\Models\Organization;
+use App\Models\Project;
+use App\Models\Expense;
 use App\Mail\OrganizationApproved;
+use App\Mail\DonationRejected;
+use App\Mail\DonationApproved;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
-use App\Mail\DonationRejected;
-use App\Mail\DonationApproved;
-
-
 
 class AdminController extends Controller
 {
@@ -44,7 +44,7 @@ class AdminController extends Controller
     {
         return view('admin.donations.pending');
     }
-    
+
     public function confirmDonation($id)
     {
         $donation = Donation::find($id);
@@ -56,7 +56,6 @@ class AdminController extends Controller
                     $appeal->update(['current_amount' => $appeal->current_amount + $donation->amount]);
                 }
             }
-
             if ($donation->organization_id && $donation->organization) {
                 Mail::to($donation->organization->email)->send(new DonationApproved($donation));
             }
@@ -68,11 +67,9 @@ class AdminController extends Controller
     {
         $donation = Donation::find($id);
         $donation->update(['status' => 'rejected']);
-
         if ($donation->organization_id && $donation->organization) {
             Mail::to($donation->organization->email)->send(new DonationRejected($donation));
         }
-
         return back()->with('success', 'تم رفض التبرع');
     }
 
@@ -170,5 +167,55 @@ class AdminController extends Controller
     {
         Organization::find($id)->update(['status' => 'rejected']);
         return back()->with('success', 'تم رفض المؤسسة');
+    }
+
+    // ==================== المشاريع ====================
+    public function projects()
+    {
+        $projects = Project::latest()->get();
+        return view('admin.projects.index', compact('projects'));
+    }
+
+    public function storeProject(Request $request)
+    {
+        Project::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'budget' => $request->budget,
+            'status' => $request->status ?? 'planned',
+            'start_date' => $request->start_date,
+        ]);
+        return back()->with('success', 'تم إضافة المشروع');
+    }
+
+    public function completeProject($id)
+    {
+        Project::find($id)->update(['status' => 'completed']);
+        return back()->with('success', 'تم تحديث حالة المشروع');
+    }
+
+    public function deleteProject($id)
+    {
+        Project::destroy($id);
+        return back()->with('success', 'تم حذف المشروع');
+    }
+
+    // ==================== المصروفات ====================
+    public function expenses()
+    {
+        $expenses = Expense::with('project')->latest()->get();
+        $projects = Project::all();
+        return view('admin.expenses.index', compact('expenses', 'projects'));
+    }
+
+    public function storeExpense(Request $request)
+    {
+        Expense::create([
+            'project_id' => $request->project_id,
+            'description' => $request->description,
+            'amount' => $request->amount,
+            'expense_date' => $request->expense_date ?? now(),
+        ]);
+        return back()->with('success', 'تم إضافة المصروف');
     }
 }
