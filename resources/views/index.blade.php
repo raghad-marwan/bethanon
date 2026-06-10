@@ -19,7 +19,7 @@
                 <div class="logo-text">
                     <span class="main-title">صندوق مساعدة الناس</span>
                     <span class="sub-title">بيت حانون</span>
-                     <span class="sub-title"> المهندس: صهيب البسيوني</span>
+                    <span class="sub-title"> المهندس: صهيب البسيوني</span>
                 </div>
             </a>
 
@@ -142,8 +142,8 @@
     </section>
 
     <section class="donation-dashboard">
-        <div class="dashboard-container">
-            <div class="dashboard-card card-stats">
+        <div class="dashboard-container" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+            <div class="dashboard-card card-stats" style="flex: 1; max-width: 400px;">
                 <div class="stat-box">
                     <h3 class="card-title-d">إجمالي المصروفات للمشاريع التشغيلية</h3>
                     <div class="main-number">
@@ -160,35 +160,14 @@
                 <button class="btn btn-outline">طلب المزيد من التفاصيل</button>
             </div>
 
-            <div class="dashboard-card card-main-action">
+            <div class="dashboard-card card-main-action" style="flex: 1; max-width: 400px; text-align: center;">
                 <div class="stat-box">
                     <h3 class="card-title-d">إجمالي عدد المشاريع التي تم تنفيذها من قبل الصندوق</h3>
-                    <br>
-                    <div class="main-number highlight">
+                    <div class="main-number highlight" style="margin-top: 20px;">
                         <span class="counter" data-target="{{ $stats['today'] }}">0</span>
                     </div>
                 </div>
-                <a href="{{ route('donate') }}" class="btn btn-primary">تبرع الآن</a>
-            </div>
-
-            <div class="dashboard-card card-recent">
-                <h3 class="card-title-d">آخر التبرعات اليوم</h3>
-                <div class="recent-list">
-                    @foreach ($recentDonations as $donation)
-                        <div class="recent-item">
-                            <div class="amount-tag">{{ $donation->amount }} شيكل</div>
-                            <div>
-                                <div class="donor-info">
-                                    <p class="donor-name">
-                                        {{ $donation->anonymous ? 'فاعل خير' : $donation->donor_name }}</p>
-                                    <p class="donor-time">{{ $donation->created_at->diffForHumans() }}</p>
-                                </div>
-                                <div class="donor-avatar"><i class="fa-solid fa-user"></i></div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-                <button class="btn btn-text">عرض جميع التبرعات</button>
+                <a href="{{ route('donate') }}" class="btn btn-primary" style="margin-top: 20px;">تبرع الآن</a>
             </div>
         </div>
     </section>
