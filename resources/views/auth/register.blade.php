@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>إنشاء حساب - صندوق مساعدة الناس</title>
+    <title>إنشاء حساب - صندوق بيت حانون التكافلي المستدام</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma; background: #f4f7f6; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
         .register-card { background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); width: 100%; max-width: 420px; padding: 25px; }
@@ -24,7 +24,7 @@
     <div class="register-card">
         <div class="header-section">
             <h2>إنشاء حساب مؤسسة</h2>
-            <p>صندوق مساعدة الناس - بيت حانون</p>
+            <p>صندوق بيت حانون التكافلي المستدام</p>
         </div>
 
         @if(session('success'))

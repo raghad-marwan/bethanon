@@ -302,7 +302,7 @@
 
     <footer class="main-footer">
         <div class="footer-container">
-            <p class="footer-text">صندوق مساعدة الناس - بيت حانون</p>
+            <p class="footer-text">صندوق بيت حانون التكافلي المستدام</p></p>
             <p class="footer-copyright">جميع الحقوق محفوظة © 2024</p>
         </div>
     </footer>
