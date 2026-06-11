@@ -43,7 +43,7 @@ class DonationController extends Controller
                 'name' => 'محفظة بايننس',
                 'iban' => 'TLC9NeahsdSP77Wj37vRTj11oyyHQQKD5Y',
                 'bank_name' => 'محفظة بايننس',
-                'account_name' => 'صندوق مساعدة الناس - بيت حانون',
+                'account_name' => 'صندوق بيت حانون التكافلي المستدام',
             ],
             'maltchat' => [
                 'name' => 'محفظة مالتشات',
