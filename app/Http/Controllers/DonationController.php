@@ -49,7 +49,7 @@ class DonationController extends Controller
                 'name' => 'محفظة مالتشات',
                 'iban' => '0594394229',
                 'bank_name' => 'محفظة مالتشات',
-                'account_name' => 'صندوق مساعدة الناس - بيت حانون',
+                'account_name' =>  'صندوق بيت حانون تاتكافلي المستدام',
             ],
         ];
 
