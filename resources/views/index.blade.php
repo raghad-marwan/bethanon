@@ -17,9 +17,7 @@
             <a href="#" class="nav-logo">
                 <i class="fa-solid fa-hand-holding-heart logo-icon"></i>
                 <div class="logo-text">
-                    <span class="main-title">صندوق مساعدة الناس</span>
-                    <span class="sub-title">بيت حانون</span>
-                    <span class="sub-title"> المهندس: صهيب البسيوني</span>
+                    <span class="main-title">  صندوق بيت حانون التكافلي المستدام</span>
                 </div>
             </a>
 
