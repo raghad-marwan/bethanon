@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>بوابة الدخول - صندوق مساعدة الناس</title>
+    <title>بوابة الدخول - صندوق بيت حانون التكافلي المستدام</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma;
@@ -99,7 +99,7 @@
     <div class="login-card">
         <div class="header-section">
             <h2>{{ $isAdmin ? 'بوابة الإداري' : 'بوابة المؤسسة' }}</h2>
-            <p>صندوق مساعدة الناس - بيت حانون</p>
+            <p>صندوق بيت حانون التكافلي المستدام</p></p>
         </div>
 
 
